@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Lazy;
 
 import com.bismay.app.finance.model.PasswordChange;
 import com.bismay.app.finance.model.Role;
@@ -23,13 +24,17 @@ import com.bismay.app.finance.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService{
 	
-	@Autowired
 	private UserRepository userRepository;
-	@Autowired
 	private RoleRepository roleRepository;
-	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository,RoleRepository roleRepository,@Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+	
 	@Override
 	public User findUserByEmail(String email) {
 		return userRepository.findByEmail(email);
