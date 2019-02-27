@@ -22,17 +22,13 @@ import com.bismay.app.finance.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService{
-
-	private UserRepository userRepository;
-	private RoleRepository roleRepository;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository,RoleRepository roleRepository,BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.userRepository = userRepository;
-		this.roleRepository = roleRepository;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-	}
+	private UserRepository userRepository;
+	@Autowired
+	private RoleRepository roleRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public User findUserByEmail(String email) {
