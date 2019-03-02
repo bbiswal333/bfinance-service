@@ -1,9 +1,7 @@
 package com.bismay.app.finance.controller;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,10 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bismay.app.finance.model.Loan;
+import com.bismay.app.finance.model.LoanAnalysisMonthly;
+import com.bismay.app.finance.model.LoanAnalysisYearly;
 import com.bismay.app.finance.model.LoanStatement;
 import com.bismay.app.finance.model.User;
 import com.bismay.app.finance.service.LoanService;
@@ -36,6 +37,43 @@ public class LoanController {
 	
 	@Autowired
 	private LoanService loanService;
+	
+	@SuppressWarnings("unchecked")
+	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping("/loan/{loanId}/analysis/yearly")
+	public ResponseEntity<List<LoanAnalysisYearly>> getLoanAnalysisYearly(@PathVariable(value = "loanId") final String loanId, @RequestParam(value="year") final int year){
+		List<Object[]> list = (List<Object[]>) loanService.getLoanAnalysisYearly(loanId,year);
+		List<LoanAnalysisYearly> convertedList = null;
+		  if(list != null && !list.isEmpty()){
+			  convertedList = new ArrayList<LoanAnalysisYearly>();
+			  LoanAnalysisYearly loan;
+	          for (Object[] object : list) {
+	        	  loan = new LoanAnalysisYearly((Double)object[0],(String)object[1],(Double)object[2]);
+	        	  convertedList.add(loan);
+	          }
+	       }
+	      
+		return new ResponseEntity<List<LoanAnalysisYearly>>(convertedList,HttpStatus.OK);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping("/loan/{loanId}/analysis/monthly")
+	public ResponseEntity<List<LoanAnalysisMonthly>> getLoanAnalysisMonthly(@PathVariable(value = "loanId") final String loanId){
+		List<Object[]> list = (List<Object[]>) loanService.getLoanAnalysisMonthly(loanId);
+		List<LoanAnalysisMonthly> convertedList = null;
+		  if(list != null && !list.isEmpty()){
+			  convertedList = new ArrayList<LoanAnalysisMonthly>();
+			  LoanAnalysisMonthly loan;
+	          for (Object[] object : list) {
+	        	  loan = new LoanAnalysisMonthly((Double)object[0],(String)object[1],(Double)object[2],(Double)object[3]);
+	        	  convertedList.add(loan);
+	          }
+	       }
+	      
+		return new ResponseEntity<List<LoanAnalysisMonthly>>(convertedList,HttpStatus.OK);
+	}
+	
 	
 	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping("/loan/{loanId}/statement")

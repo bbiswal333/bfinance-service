@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.bismay.app.finance.model.Loan;
+import com.bismay.app.finance.model.LoanAnalysisMonthly;
 import com.bismay.app.finance.model.LoanStatement;
 
 @Service
@@ -17,4 +18,6 @@ public interface LoanService {
 	public void createLoanStatement(LoanStatement loanStatement);
 	public void updateLoan(Loan loan);
 	public List<LoanStatement> getLoanStatementByLoanId(String loanId);
+	public List<?> getLoanAnalysisMonthly(String loanId);
+	public List<?> getLoanAnalysisYearly(String loanId,int year);
 }

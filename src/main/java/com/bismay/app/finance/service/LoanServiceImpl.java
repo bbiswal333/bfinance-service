@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bismay.app.finance.model.Loan;
+import com.bismay.app.finance.model.LoanAnalysisMonthly;
 import com.bismay.app.finance.model.LoanStatement;
 import com.bismay.app.finance.repository.LoanRepository;
 import com.bismay.app.finance.repository.LoanStatementRepository;
@@ -55,6 +56,16 @@ public class LoanServiceImpl implements LoanService {
 	@Override
 	public List<LoanStatement> getLoanStatementByLoanId(String loanId) {
 		return loanStatementRepository.getLoanStatementByLoanId(loanId);
+	}
+
+	@Override
+	public List<?> getLoanAnalysisMonthly(String loanId) {
+		return loanStatementRepository.getLoanAnalysisMonthly(loanId);
+	}
+
+	@Override
+	public List<?> getLoanAnalysisYearly(String loanId, int year) {
+		return loanStatementRepository.getLoanAnalysisYearly(loanId, year);
 	}
 
 }
