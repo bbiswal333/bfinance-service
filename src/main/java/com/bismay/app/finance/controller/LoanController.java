@@ -89,9 +89,11 @@ public class LoanController {
 		Loan loan = loanService.getLoanById(loanId);
 		if(loanStatement.getTransactionType().equalsIgnoreCase("DEBIT")){
 			loan.setBalanceAmount(loan.getBalanceAmount() + loanStatement.getTransactionAmount());
+			loanStatement.setOutstandingAmount(loan.getBalanceAmount());
 			loan.setTotalInterestPaid(loan.getTotalInterestPaid() + loanStatement.getTransactionAmount());
 		}else{
 			loan.setBalanceAmount(loan.getBalanceAmount() - loanStatement.getTransactionAmount());
+			loanStatement.setOutstandingAmount(loan.getBalanceAmount());
 			loan.setTotalPrincipalPaid(loan.getTotalPrincipalPaid() + loanStatement.getTransactionAmount());
 		}
 		

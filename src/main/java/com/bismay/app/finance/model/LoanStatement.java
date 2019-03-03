@@ -32,6 +32,9 @@ public class LoanStatement {
 	@Column(name="transaction_amount")
 	private double transactionAmount;
 	
+	@Column(name="outstanding_amount")
+	private double outstandingAmount;
+	
 	@Column(name="description")
 	private String desc;
 	
@@ -39,6 +42,12 @@ public class LoanStatement {
 	@JoinColumn(name = "loan_id")
 	private Loan loan;
 	
+	public double getOutstandingAmount() {
+		return outstandingAmount;
+	}
+	public void setOutstandingAmount(double outstandingAmount) {
+		this.outstandingAmount = outstandingAmount;
+	}
 	public String getLoanStatementId() {
 		return loanStatementId;
 	}
