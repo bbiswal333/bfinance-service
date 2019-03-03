@@ -3,6 +3,7 @@ package com.bismay.app.finance.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindException;
@@ -24,6 +25,7 @@ public class PasswordResetController {
 	
 	@Autowired private UserService userService;
     @Autowired private PasswordResetTokenRepository tokenRepository;
+    @Lazy
     @Autowired private BCryptPasswordEncoder passwordEncoder;
     
     @GetMapping("/reset-password")
