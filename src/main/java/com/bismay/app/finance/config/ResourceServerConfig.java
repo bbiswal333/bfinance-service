@@ -21,7 +21,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private String resourceIds;
 
     @Override
-    @Primary
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.resourceId(resourceIds).tokenServices(tokenServices);
     }
