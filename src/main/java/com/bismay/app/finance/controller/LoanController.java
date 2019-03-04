@@ -59,8 +59,8 @@ public class LoanController {
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping("/loan/{loanId}/analysis/monthly")
-	public ResponseEntity<List<LoanAnalysisMonthly>> getLoanAnalysisMonthly(@PathVariable(value = "loanId") final String loanId){
-		List<Object[]> list = (List<Object[]>) loanService.getLoanAnalysisMonthly(loanId);
+	public ResponseEntity<List<LoanAnalysisMonthly>> getLoanAnalysisMonthly(@PathVariable(value = "loanId") final String loanId,@RequestParam(value="year") final int year){
+		List<Object[]> list = (List<Object[]>) loanService.getLoanAnalysisMonthly(loanId,year);
 		List<LoanAnalysisMonthly> convertedList = null;
 		  if(list != null && !list.isEmpty()){
 			  convertedList = new ArrayList<LoanAnalysisMonthly>();

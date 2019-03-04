@@ -58,8 +58,8 @@ public class LoanServiceImpl implements LoanService {
 	}
 
 	@Override
-	public List<?> getLoanAnalysisMonthly(String loanId) {
-		return loanStatementRepository.getLoanAnalysisMonthly(loanId);
+	public List<?> getLoanAnalysisMonthly(String loanId,int year) {
+		return loanStatementRepository.getLoanAnalysisMonthly(loanId,year);
 	}
 
 	@Override

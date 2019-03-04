@@ -16,8 +16,8 @@ public interface LoanStatementRepository extends CrudRepository<LoanStatement, S
 	List<LoanStatement> getLoanStatementByLoanId(String loanId);
 	
 	@Query(value = "SELECT SUM(transaction_amount) as totalAmount, transaction_type as transactionType , extract(year from date) as year, extract(month from date) as month from loan_statement where loan_id= ?1 " + 
-					"and extract(year from date)=extract(year from current_date) group by transaction_type,  extract(month from date),  extract(year from date) order by extract(month from date),extract(year from date) asc", nativeQuery = true)
-	List<?> getLoanAnalysisMonthly(String loanId);
+					"and extract(year from date)=?2 group by transaction_type,  extract(month from date),  extract(year from date) order by extract(month from date),extract(year from date) asc", nativeQuery = true)
+	List<?> getLoanAnalysisMonthly(String loanId,int year);
 	
 	@Query(value = "SELECT SUM(transaction_amount) as totalAmount, transaction_type as transactionType , extract(year from date) as year from loan_statement where loan_id= ?1 " + 
 			"and extract(year from date)=?2 group by transaction_type,  extract(year from date)", nativeQuery = true)

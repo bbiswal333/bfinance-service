@@ -19,7 +19,7 @@ public interface LoanService {
 	public LoanStatement getLoanStatement(String loanStatementId);
 	public void updateLoan(Loan loan);
 	public List<LoanStatement> getLoanStatementByLoanId(String loanId);
-	public List<?> getLoanAnalysisMonthly(String loanId);
+	public List<?> getLoanAnalysisMonthly(String loanId,int year);
 	public List<?> getLoanAnalysisYearly(String loanId,int year);
 	public boolean deleteLoanStatement(String loanStatementId);
 }
