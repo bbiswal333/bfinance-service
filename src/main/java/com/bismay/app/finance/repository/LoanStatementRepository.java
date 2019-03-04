@@ -2,11 +2,11 @@ package com.bismay.app.finance.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.bismay.app.finance.model.LoanAnalysisMonthly;
 import com.bismay.app.finance.model.LoanStatement;
 
 @Repository
@@ -26,6 +26,7 @@ public interface LoanStatementRepository extends CrudRepository<LoanStatement, S
 	@Query(value = "SELECT * FROM loan_statement WHERE loan_statement_id = ?1", nativeQuery = true)
 	LoanStatement getLoanStatement(String loanStatementId);
 	
+	@Modifying
 	@Query(value = "DELETE FROM loan_statement WHERE loan_statement_id = ?1", nativeQuery = true)
 	void deleteLoanStatement(String loanStatementId);
 	
