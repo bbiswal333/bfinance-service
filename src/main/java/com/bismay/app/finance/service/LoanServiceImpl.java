@@ -80,24 +80,26 @@ public class LoanServiceImpl implements LoanService {
 		//deleteing the statment
 		try{
 			loanStatementRepository.deleteLoanStatement(loanStatementId);
+			
+			//updating loan
+			if(statement.getTransactionType().equalsIgnoreCase("DEBIT")){
+				loan.setBalanceAmount(loan.getBalanceAmount() - statement.getTransactionAmount());
+				loan.setTotalInterestPaid(loan.getTotalInterestPaid() - statement.getTransactionAmount());
+				this.updateLoan(loan);
+			}
+			if(statement.getTransactionType().equalsIgnoreCase("CREDIT")){
+				loan.setBalanceAmount(loan.getBalanceAmount() + statement.getTransactionAmount());
+				loan.setTotalPrincipalPaid(loan.getTotalPrincipalPaid() - statement.getTransactionAmount());
+				this.updateLoan(loan);
+			}
+			
+			flag = true;
 		}catch(Exception e){
 			System.out.println(e);
 			return flag;
 			
 		}
-		//updating loan
-		if(statement.getTransactionType().equalsIgnoreCase("DEBIT")){
-			loan.setBalanceAmount(loan.getBalanceAmount() - statement.getTransactionAmount());
-			loan.setTotalInterestPaid(loan.getTotalInterestPaid() - statement.getTransactionAmount());
-			this.updateLoan(loan);
-		}
-		if(statement.getTransactionType().equalsIgnoreCase("CREDIT")){
-			loan.setBalanceAmount(loan.getBalanceAmount() + statement.getTransactionAmount());
-			loan.setTotalPrincipalPaid(loan.getTotalPrincipalPaid() - statement.getTransactionAmount());
-			this.updateLoan(loan);
-		}
 		
-		flag = true;
 		return flag;
 	}
 
