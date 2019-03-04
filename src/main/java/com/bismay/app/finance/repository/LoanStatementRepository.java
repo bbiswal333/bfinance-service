@@ -26,7 +26,7 @@ public interface LoanStatementRepository extends CrudRepository<LoanStatement, S
 	@Query(value = "SELECT * FROM loan_statement WHERE loan_id = ?1", nativeQuery = true)
 	LoanStatement getLoanStatement(String loanStatementId);
 	
-	@Query(value = "DELETE FROM loan_statement WHERE loan_id = ?1", nativeQuery = true)
+	@Query(value = "DELETE FROM loan_statement WHERE loan_statement_id = ?1", nativeQuery = true)
 	void deleteLoanStatement(String loanStatementId);
 	
 }
