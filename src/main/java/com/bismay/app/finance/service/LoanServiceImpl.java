@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bismay.app.finance.model.Loan;
-import com.bismay.app.finance.model.LoanAnalysisMonthly;
 import com.bismay.app.finance.model.LoanStatement;
 import com.bismay.app.finance.repository.LoanRepository;
 import com.bismay.app.finance.repository.LoanStatementRepository;
@@ -66,6 +65,36 @@ public class LoanServiceImpl implements LoanService {
 	@Override
 	public List<?> getLoanAnalysisYearly(String loanId, int year) {
 		return loanStatementRepository.getLoanAnalysisYearly(loanId, year);
+	}
+
+	@Override
+	public LoanStatement getLoanStatement(String loanStatementId) {
+		return loanStatementRepository.getLoanStatement(loanStatementId);
+	}
+
+	@Override
+	public boolean deleteLoanStatement(String loanStatementId) {
+		boolean flag = false;
+		LoanStatement statement = loanStatementRepository.getLoanStatement(loanStatementId);
+		Loan loan = loanRepository.getLoanById(statement.getLoan().getLoanId());
+		//deleteing the statment
+		try{
+			loanStatementRepository.deleteLoanStatement(loanStatementId);
+		}catch(Exception e){
+			System.out.println(e);
+			return flag;
+			
+		}
+		//updating loan
+		if(statement.getTransactionType().equalsIgnoreCase("DEBIT")){
+			loan.setBalanceAmount(loan.getBalanceAmount() - statement.getTransactionAmount());
+		}
+		if(statement.getTransactionType().equalsIgnoreCase("CREDIT")){
+			loan.setBalanceAmount(loan.getBalanceAmount() + statement.getTransactionAmount());
+		}
+		this.updateLoan(loan);
+		flag = true;
+		return flag;
 	}
 
 }

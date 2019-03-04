@@ -74,6 +74,13 @@ public class LoanController {
 		return new ResponseEntity<List<LoanAnalysisMonthly>>(convertedList,HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('USER')")
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("/loan/statement/{loanStatementId}")
+	public void deleteLoanStatement(@PathVariable(value = "loanStatementId") final String loanStatementId){
+		 loanService.deleteLoanStatement(loanStatementId);
+		
+	}
 	
 	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping("/loan/{loanId}/statement")
