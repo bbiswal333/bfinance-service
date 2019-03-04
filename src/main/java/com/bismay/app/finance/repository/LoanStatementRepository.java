@@ -23,7 +23,7 @@ public interface LoanStatementRepository extends CrudRepository<LoanStatement, S
 			"and extract(year from date)=?2 group by transaction_type,  extract(year from date)", nativeQuery = true)
 	List<?> getLoanAnalysisYearly(String loanId,int year);
 	
-	@Query(value = "SELECT * FROM loan_statement WHERE loan_id = ?1", nativeQuery = true)
+	@Query(value = "SELECT * FROM loan_statement WHERE loan_statement_id = ?1", nativeQuery = true)
 	LoanStatement getLoanStatement(String loanStatementId);
 	
 	@Query(value = "DELETE FROM loan_statement WHERE loan_statement_id = ?1", nativeQuery = true)
