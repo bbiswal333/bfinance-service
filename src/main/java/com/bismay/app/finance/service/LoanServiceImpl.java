@@ -89,12 +89,14 @@ public class LoanServiceImpl implements LoanService {
 		if(statement.getTransactionType().equalsIgnoreCase("DEBIT")){
 			loan.setBalanceAmount(loan.getBalanceAmount() - statement.getTransactionAmount());
 			loan.setTotalInterestPaid(loan.getTotalInterestPaid() - statement.getTransactionAmount());
+			this.updateLoan(loan);
 		}
 		if(statement.getTransactionType().equalsIgnoreCase("CREDIT")){
 			loan.setBalanceAmount(loan.getBalanceAmount() + statement.getTransactionAmount());
 			loan.setTotalPrincipalPaid(loan.getTotalPrincipalPaid() - statement.getTransactionAmount());
+			this.updateLoan(loan);
 		}
-		this.updateLoan(loan);
+		
 		flag = true;
 		return flag;
 	}
