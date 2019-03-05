@@ -1,5 +1,6 @@
 package com.bismay.app.finance.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,31 @@ public class LoanServiceImpl implements LoanService {
 		}
 		
 		return flag;
+	}
+
+	@Override
+	public List<LoanStatement> filterLoanStatementByMonth(String loanId, String filterType) {
+		List<LoanStatement> statements = null;
+		if(filterType.equalsIgnoreCase("CURRENT_MONTH")){
+			statements = loanStatementRepository.filterLoanStatementByCurrentMonth(loanId);
+		}
+		if(filterType.equalsIgnoreCase("LAST_1_MONTH")){
+			statements = loanStatementRepository.filterLoanStatementByLastOneMonth(loanId);
+		}
+		if(filterType.equalsIgnoreCase("LAST_3_MONTH")){
+			statements = loanStatementRepository.filterLoanStatementByLastThreeMonths(loanId);
+		}
+		if(filterType.equalsIgnoreCase("LAST_6_MONTH")){
+			statements = loanStatementRepository.filterLoanStatementByLastSixMonths(loanId);
+		}
+		return statements;
+	}
+
+	@Override
+	public List<LoanStatement> filterLoanStatementByCustomDate(String loanId, Date from, Date to) {
+		List<LoanStatement> statements = null;
+		statements = loanStatementRepository.filterLoanStatementByCustomDate(loanId, from, to);
+		return statements;
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.bismay.app.finance.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -162,5 +164,42 @@ public class LoanController {
 		User user = userService.findUserByEmail(auth.getName());
 		List<Loan> loanDetails = loanService.getLoanByUser(user.getId());
 		return new ResponseEntity<List<Loan>>(loanDetails,HttpStatus.OK);
+	}
+	
+	//filter loan statments endpoint
+	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping("/loan/{loanId}/statement/filter/default")
+	public ResponseEntity<List<LoanStatement>> filterLoanStatementsDefault(
+			@PathVariable(value = "loanId") final String loanId,
+			@RequestParam(value = "filterType") final String filterType
+			){
+		
+		List<LoanStatement> statements = null;
+		statements = loanService.filterLoanStatementByMonth(loanId, filterType);
+		
+		return new ResponseEntity<List<LoanStatement>>(statements,HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping("/loan/{loanId}/statement/filter/custom")
+	public ResponseEntity<List<LoanStatement>> filterLoanStatementsCustom(
+			@PathVariable(value = "loanId") final String loanId,
+			@RequestParam(value = "to") final String to,
+			@RequestParam(value = "from") final String from
+			){
+		
+		List<LoanStatement> statements = null;
+		Date fromDate = null;
+		Date toDate = null;
+		try {
+			 fromDate =  new SimpleDateFormat("yyyy-MM-dd").parse(from);
+			 toDate =  new SimpleDateFormat("yyyy-MM-dd").parse(to);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		statements = loanService.filterLoanStatementByCustomDate(loanId, fromDate, toDate);
+		return new ResponseEntity<List<LoanStatement>>(statements,HttpStatus.OK);
 	}
 }

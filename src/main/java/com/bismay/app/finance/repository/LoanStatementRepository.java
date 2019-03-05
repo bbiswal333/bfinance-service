@@ -1,5 +1,6 @@
 package com.bismay.app.finance.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,5 +30,21 @@ public interface LoanStatementRepository extends CrudRepository<LoanStatement, S
 	@Modifying
 	@Query(value = "DELETE FROM loan_statement WHERE loan_statement_id = ?1", nativeQuery = true)
 	void deleteLoanStatement(String loanStatementId);
+	
+	//filters loan statement
+	@Query(value = "SELECT * from loan_statement where date >  CURRENT_DATE - INTERVAL '1 month' AND loan_id=?1", nativeQuery = true)
+	List<LoanStatement> filterLoanStatementByLastOneMonth(String loanId);
+	
+	@Query(value = "SELECT * from loan_statement where date >  CURRENT_DATE - INTERVAL '3 months' AND loan_id=?1", nativeQuery = true)
+	List<LoanStatement> filterLoanStatementByLastThreeMonths(String loanId);
+	
+	@Query(value = "SELECT * from loan_statement where date >  CURRENT_DATE - INTERVAL '6 months' AND loan_id=?1", nativeQuery = true)
+	List<LoanStatement> filterLoanStatementByLastSixMonths(String loanId);
+	
+	@Query(value = "select * from loan_statement where extract(month from date) = extract(month from current_date) AND loan_id = ?1", nativeQuery = true)
+	List<LoanStatement> filterLoanStatementByCurrentMonth(String loanId);
+	
+	@Query(value = "SELECT * from loan_statement where date between ?2 AND ?3 AND loan_id=?1", nativeQuery = true)
+	List<LoanStatement> filterLoanStatementByCustomDate(String loanId, Date fromDate, Date toDate);
 	
 }
