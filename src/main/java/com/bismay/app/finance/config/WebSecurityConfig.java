@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		DefaultTokenServices tokenServices = new DefaultTokenServices();
 		tokenServices.setTokenStore(tokenStore());
 		tokenServices.setSupportRefreshToken(true);
-		tokenServices.setAccessTokenValiditySeconds(6000);
+		tokenServices.setAccessTokenValiditySeconds(3600);
 		return tokenServices;
 	}
 }

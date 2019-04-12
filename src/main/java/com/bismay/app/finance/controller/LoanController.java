@@ -26,8 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bismay.app.finance.model.Loan;
 import com.bismay.app.finance.model.LoanAnalysisMonthly;
 import com.bismay.app.finance.model.LoanAnalysisYearly;
+import com.bismay.app.finance.model.LoanAutoPay;
 import com.bismay.app.finance.model.LoanStatement;
 import com.bismay.app.finance.model.User;
+import com.bismay.app.finance.service.LoanAutoPayService;
 import com.bismay.app.finance.service.LoanService;
 import com.bismay.app.finance.service.UserService;
 
@@ -39,6 +41,9 @@ public class LoanController {
 	
 	@Autowired
 	private LoanService loanService;
+	
+	@Autowired
+	private LoanAutoPayService autoPayService;
 	
 	@SuppressWarnings("unchecked")
 	@PreAuthorize("hasAuthority('USER')")
@@ -201,5 +206,16 @@ public class LoanController {
 		
 		statements = loanService.filterLoanStatementByCustomDate(loanId, fromDate, toDate);
 		return new ResponseEntity<List<LoanStatement>>(statements,HttpStatus.OK);
+	}
+	
+	
+	@PreAuthorize("hasAuthority('USER')")
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping("/loan/{loanId}/autopay")
+	public void enableAutoPay(@RequestBody final LoanAutoPay autoPay, @PathVariable(value = "loanId") final String loanId) throws ParseException{
+		autoPay.setId(UUID.randomUUID().toString());
+		autoPay.setLoanId(loanId);
+		autoPay.setTransactionType("CREDIT");
+		autoPayService.createLoanAutoPay(autoPay);
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.bismay.app.finance.config.ContextInitializer;
 import com.bismay.app.finance.model.Role;
@@ -13,6 +14,7 @@ import com.bismay.app.finance.repository.RoleRepository;
 import com.bismay.app.finance.utils.Util;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application implements CommandLineRunner {
 
 	public static void main(String[] args)  {
