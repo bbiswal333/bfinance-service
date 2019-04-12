@@ -27,7 +27,7 @@ public class LoanAutoPayJob {
 
 	int count = 0;
 
-	@Scheduled(cron = "0 45 11 * * ?")
+	@Scheduled(cron = "0 30 6 * * ?")
 	public void loanAutoPayService() {
 		System.out.println("Loan Auto Pay job started. Current time is :: " + new Date());
 		List<LoanAutoPay> tasks = fetchTodayTasks();
