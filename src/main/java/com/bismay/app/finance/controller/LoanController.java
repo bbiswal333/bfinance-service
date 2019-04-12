@@ -218,4 +218,10 @@ public class LoanController {
 		autoPay.setTransactionType("CREDIT");
 		autoPayService.createLoanAutoPay(autoPay);
 	}
+	
+	@GetMapping("/loan/{loanId}/autopay")
+	public ResponseEntity<LoanAutoPay> getAutoPayByLoanId(@PathVariable(value = "loanId") final String loanId){
+		LoanAutoPay autoPay = autoPayService.getLoanAutoPayByLoan(loanId);
+		return new ResponseEntity<LoanAutoPay>(autoPay,HttpStatus.OK);
+	}
 }
