@@ -219,9 +219,18 @@ public class LoanController {
 		autoPayService.createLoanAutoPay(autoPay);
 	}
 	
+	@PreAuthorize("hasAuthority('USER')")
 	@GetMapping("/loan/{loanId}/autopay")
 	public ResponseEntity<LoanAutoPay> getAutoPayByLoanId(@PathVariable(value = "loanId") final String loanId){
 		LoanAutoPay autoPay = autoPayService.getLoanAutoPayByLoan(loanId);
 		return new ResponseEntity<LoanAutoPay>(autoPay,HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('USER')")
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("/loan/{loanId}/autopay")
+	public void disableAutoPay(@PathVariable(value = "loanId") final String loanId){
+		LoanAutoPay autoPay = autoPayService.getLoanAutoPayByLoan(loanId);
+		autoPayService.deleteLoanAutoPay(autoPay);
 	}
 }
